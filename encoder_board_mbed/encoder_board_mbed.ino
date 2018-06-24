@@ -11,6 +11,7 @@ void setup() {
   Wire.setClock(400000UL);
   Serial.begin(115200);
 
+  enc.init();
 }
 
 void loop() {
