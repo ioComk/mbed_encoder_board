@@ -13,7 +13,7 @@ class EncoderBoardMbed {
   private:
     int mADDR; //I2Cアドレス
 
-    byte mEncBuf[4][4];
+    long mEncBuf[4][4];
     long mEncData[4];
     
   public:
