@@ -14,7 +14,7 @@ class EncoderBoardMbed {
     int mADDR; //I2Cアドレス
 
     long mEncBuf[4][4];
-    long mEncData[4];
+    long mOffsetEncData[4],mNowEncData[4];
     
   public:
 
@@ -53,15 +53,39 @@ class EncoderBoardMbed {
             mEncBuf[3][3] = Wire.read();
       }
       
-      mEncData[0] = (mEncBuf[0][0] << 24) | (mEncBuf[0][1] << 16) | (mEncBuf[0][2] << 8) | mEncBuf[0][3];
-      mEncData[1] = (mEncBuf[1][0] << 24) | (mEncBuf[1][1] << 16) | (mEncBuf[1][2] << 8) | mEncBuf[1][3];
-      mEncData[2] = (mEncBuf[2][0] << 24) | (mEncBuf[2][1] << 16) | (mEncBuf[2][2] << 8) | mEncBuf[2][3];
-      mEncData[3] = (mEncBuf[3][0] << 24) | (mEncBuf[3][1] << 16) | (mEncBuf[3][2] << 8) | mEncBuf[3][3];
+      mOffsetEncData[0] = (mEncBuf[0][0] << 24) | (mEncBuf[0][1] << 16) | (mEncBuf[0][2] << 8) | mEncBuf[0][3];
+      mOffsetEncData[1] = (mEncBuf[1][0] << 24) | (mEncBuf[1][1] << 16) | (mEncBuf[1][2] << 8) | mEncBuf[1][3];
+      mOffsetEncData[2] = (mEncBuf[2][0] << 24) | (mEncBuf[2][1] << 16) | (mEncBuf[2][2] << 8) | mEncBuf[2][3];
+      mOffsetEncData[3] = (mEncBuf[3][0] << 24) | (mEncBuf[3][1] << 16) | (mEncBuf[3][2] << 8) | mEncBuf[3][3];
     
     }
 
+    /*
+      エンコーダ基板の初期化
+    */
+
+   void init(){
+     Update();
+     resetCount();
+   }
+
+
+    /*
+    　エンコーダの回転数を取得
+      @param port 基板のポート番号
+    */
     long getCount(int port) {
-      return mEncData[port-1];
+      return mNowEncData[port-1] - mEncData[port-1];
+    }
+
+
+    /*
+      エンコーダの回転数の初期化
+      @param port 基板のポート番号
+    */
+
+    void resetCount(int port){
+      mOffsetEncData[port-1] = mNowEncData[port-1];
     }
 
 };
