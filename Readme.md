@@ -1,8 +1,8 @@
 # Mbed EncoderBoard
 
-##Description
+## Description
 
 エンコーダの値をMbedで読み取り，ArduinoへI2C通信で送信
 
-##Author
+## Author
 Watanabe Rui
